@@ -38,14 +38,13 @@ jobs:
           mlflow run MLProject --env-manager=local
 
       # 5. Simpan Artefak (Commit folder mlruns ke GitHub)
-      # Ini memenuhi syarat 'Skilled': Menyimpan artefak ke repositori
       - name: Commit and Push Artifacts
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
           # Tambahkan folder mlruns (hasil training)
-          git add MLProject/mlruns
+          git add mlruns
           
           # Commit dan Push
           git commit -m "Auto: Add training artifacts (mlruns)" || echo "No changes to commit"
