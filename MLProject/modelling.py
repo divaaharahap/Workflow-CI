@@ -41,6 +41,11 @@ def run_modelling():
         model_lr.fit(X_train, y_train)
         print("LogisticRegression selesai.")
 
+        run_id = run.info.run_id
+        with open("run_id.txt", "w") as f:
+            f.write(run_id)
+        print(f"Run ID disimpan: {run_id}")
+
     print("\nModel selesai dilatih.")
 
 
