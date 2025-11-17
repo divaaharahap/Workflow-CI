@@ -11,8 +11,8 @@ DATA_PATH = 'titanic_preprocessing.csv'
 mlflow.sklearn.autolog() 
 
 # mengatur nama eksperimen di MLflow
-nama = "Modelling"
-mlflow.set_experiment(nama)
+# nama = "Modelling"
+# mlflow.set_experiment(nama)
 
 def run_modelling():
     print("Memulai proses modelling...")
@@ -35,14 +35,14 @@ def run_modelling():
     print("Data siap. Memulai pelatihan model Logistic Regression...")
 
     # --- RUN LOGISTIC REGRESSION ---
-    with mlflow.start_run(run_name="LogisticRegression_Run"):
+    with mlflow.start_run():
         print("\nMelatih LogisticRegression...")
         model_lr = LogisticRegression(solver='liblinear', random_state=42)
         model_lr.fit(X_train, y_train)
         print("LogisticRegression selesai.")
 
     print("\nModel selesai dilatih.")
-    print("Jalankan 'mlflow ui' untuk melihat hasilnya.")
+
 
 if __name__ == "__main__":
     run_modelling()
