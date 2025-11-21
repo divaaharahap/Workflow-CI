@@ -35,7 +35,7 @@ def run_modelling():
     print("Data siap. Memulai pelatihan model Logistic Regression...")
 
     # --- RUN LOGISTIC REGRESSION ---
-    with mlflow.start_run():
+    with mlflow.start_run() as run:
         print("\nMelatih LogisticRegression...")
         model_lr = LogisticRegression(solver='liblinear', random_state=42)
         model_lr.fit(X_train, y_train)
