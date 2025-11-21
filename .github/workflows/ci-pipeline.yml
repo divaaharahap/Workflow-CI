@@ -1,20 +1,19 @@
-name: CI Pipeline for Model Training
+name: CI Pipeline (Advanced) - Train & Dockerize
 
 on:
   push:
     branches:
       - main
 
-# Memberi izin bot untuk 'menulis' (push) balik ke repo
 permissions:
   contents: write
 
 jobs:
-  train-model:
+  train-and-build-docker:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Ambil kode dari repo
+      # 1. Ambil kode
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -24,28 +23,61 @@ jobs:
         with:
           python-version: '3.10'
 
-      # 3. Install dependencies manual (agar lebih cepat daripada Conda)
+      # 3. Install Dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install mlflow pandas scikit-learn
 
-      # 4. Jalankan MLflow Project
-      # Kita arahkan ke folder 'MLProject'
-      # Kita pakai --env-manager=local supaya dia pakai library yang barusan kita install di atas
+      # 4. Jalankan Training (Modelling)
+      # Ini akan membuat file 'run_id.txt'
       - name: Run MLflow Project
         run: |
           mlflow run MLProject --env-manager=local
 
-      # 5. Simpan Artefak (Commit folder mlruns ke GitHub)
+      # --- BAGIAN DOCKER (YANG SEBELUMNYA HILANG) ---
+
+      # 5. Login ke Docker Hub
+      # Robot login pakai Secret yang sudah kamu buat
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 6. Build Docker Image
+      # Robot membaca Run ID, lalu membungkus model jadi Docker
+      - name: Build Docker Image via MLflow
+        run: |
+          RUN_ID=$(cat MLProject/run_id.txt)
+          echo "Building Docker for Run ID: $RUN_ID"
+          
+          # Perintah MLflow untuk bikin docker image
+          mlflow models build-docker -m "runs:/$RUN_ID/model" -n "titanic-model-temp:latest" --enable-mlserver
+
+      # 7. Push ke Docker Hub
+      # INI PERINTAH YANG KAMU TANYAKAN TADI
+      # Robot yang akan menjalankannya untukmu
+      - name: Push to Docker Hub
+        run: |
+          # Nama repo Docker Hub kamu
+          DOCKER_IMAGE="divaaharahap/titanic-model-serve"
+          
+          # Ganti tag temp jadi nama repo asli
+          docker tag titanic-model-temp:latest $DOCKER_IMAGE:latest
+          
+          # Dorong ke Docker Hub
+          docker push $DOCKER_IMAGE:latest
+
+      # --- SELESAI BAGIAN DOCKER ---
+
+      # 8. Simpan Artefak mlruns ke GitHub
       - name: Commit and Push Artifacts
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # Tambahkan folder mlruns (hasil training)
           git add mlruns
           
-          # Commit dan Push
-          git commit -m "Auto: Add training artifacts (mlruns)" || echo "No changes to commit"
+          git commit -m "Auto: Update artifacts & Docker build" || echo "No changes"
           git push
