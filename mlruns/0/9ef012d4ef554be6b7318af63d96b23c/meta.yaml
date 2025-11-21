@@ -1,0 +1,14 @@
+artifact_uri: file:///home/runner/work/Workflow-CI/Workflow-CI/mlruns/0/9ef012d4ef554be6b7318af63d96b23c/artifacts
+end_time: 1763701984491
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 9ef012d4ef554be6b7318af63d96b23c
+run_name: secretive-snipe-846
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763701979256
+status: 3
+tags: []
+user_id: runner
