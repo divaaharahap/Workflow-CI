@@ -1,0 +1,14 @@
+artifact_uri: file:///home/runner/work/Workflow-CI/Workflow-CI/mlruns/0/76dda4f300c647d084404462ebaa997e/artifacts
+end_time: 1763702783924
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 76dda4f300c647d084404462ebaa997e
+run_name: painted-midge-113
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1763702778625
+status: 3
+tags: []
+user_id: runner
