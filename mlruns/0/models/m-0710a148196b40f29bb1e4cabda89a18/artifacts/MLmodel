@@ -1,0 +1,33 @@
+artifact_path: file:///home/runner/work/Workflow-CI/Workflow-CI/mlruns/0/models/m-0710a148196b40f29bb1e4cabda89a18/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.10.19
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.7.2
+is_signature_from_type_hint: false
+mlflow_version: 3.6.0
+model_id: m-0710a148196b40f29bb1e4cabda89a18
+model_size_bytes: 941
+model_uuid: m-0710a148196b40f29bb1e4cabda89a18
+prompts: null
+run_id: 9ef012d4ef554be6b7318af63d96b23c
+signature:
+  inputs: '[{"type": "double", "name": "Pclass", "required": true}, {"type": "long",
+    "name": "Sex", "required": true}, {"type": "double", "name": "Age", "required":
+    true}, {"type": "double", "name": "SibSp", "required": true}, {"type": "double",
+    "name": "Parch", "required": true}, {"type": "double", "name": "Fare", "required":
+    true}, {"type": "boolean", "name": "Embarked_Q", "required": true}, {"type": "boolean",
+    "name": "Embarked_S", "required": true}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "int64", "shape": [-1]}}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2025-11-21 05:13:00.958222'
